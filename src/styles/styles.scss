@@ -1,0 +1,18 @@
+@import './reset.scss';
+@import './form.scss';
+@import './fa.scss';
+@import './ani.scss';
+
+
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('~@assets/fonts/Montserrat-Regular.ttf') format('truetype')
+}
+
+body {
+    font-size: 14px;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    color: #111;
+    overflow-y: auto;
+}

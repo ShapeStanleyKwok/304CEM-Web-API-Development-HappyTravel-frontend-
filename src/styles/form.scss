@@ -1,0 +1,70 @@
+$form-height: 60px;
+$border-radius: 2px;
+
+.form-item {
+    position: relative;
+
+    .fa {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 10%;
+        height: $form-height;
+        line-height: $form-height;
+
+        font-size: 22px;
+        vertical-align: middle;
+        color: gray;
+    }
+}
+
+
+label {
+    display: block;
+    font-size: 16px;
+    color: #495057;
+    text-align: left;
+    margin: 16px 0;
+}
+
+input {
+    font-size: 1.25em;
+    letter-spacing: 0.5px;
+    width: 100%;
+    height: $form-height;
+    padding: 10px 8px;
+    border: none;
+    outline: none;
+    color: #192531;
+    transition: border ease-in-out 0.3s;
+    font-family: inherit;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    border-radius: $border-radius;
+
+    &:focus {
+        border: 1px solid #00aced;
+    }
+
+    &::-webkit-input-placeholder {
+        font-size: 0.9em;
+        color: gray;
+    }
+}
+
+button {
+    height: $form-height;
+    border: none;
+    outline: none;
+    background: #228be6;
+    color: #fff;
+    border: 1px solid #f1f1f1;
+    border-radius: $border-radius;
+    font-size: 1em;
+    padding: 12px 10px;
+    text-decoration: none;
+    text-shadow: none;
+    box-shadow: none;
+    cursor: pointer;
+    transition: 0.25s;
+}
