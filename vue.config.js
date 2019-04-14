@@ -1,4 +1,3 @@
-
 module.exports = {
     publicPath: '/',
     devServer: {
@@ -16,8 +15,7 @@ module.exports = {
                 '@pages': '@/pages',
                 '@styles': '@/styles',
                 '@types': '@/store/types',
-                '@utils': '@/utils',
-                '@api': '@/utils/api'
+                '@utils': '@/utils'
             }
         }
     }

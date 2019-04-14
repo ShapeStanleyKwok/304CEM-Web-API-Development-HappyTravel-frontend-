@@ -9,34 +9,63 @@
           <a :href="item.link">{{ item.text }}</a>
         </li>
 
-        <li class="signin">
-          <a href="/sign?type=signin">Sign in</a>
-          <i class="fa fa-sign-in"></i>
-        </li>
+        <template v-if="!isLogin">
+          <li class="signin">
+            <a href="/sign?type=signin">Sign in</a>
+            <i class="fa fa-sign-in"></i>
+          </li>
 
-        <li class="signup">
-          <a href="/sign?type=signup">Sign up</a>
-        </li>
+          <li class="signup">
+            <a href="/sign?type=signup">Sign up</a>
+          </li>
+        </template>
+
+        <template else>
+          <li class="userInfo" v-if="isLogin">
+            <a href="/user">
+              <img :src="userInfo.avatar" alt="userInfo">
+              <span>{{ userInfo.nickname }}</span>
+            </a>
+          </li>
+          <li class="signout" v-if="isLogin">
+            <a href="#" @click="onSignOut">SIGN OUT</a>
+            <i class="fa fa-sign-out"></i>
+          </li>
+        </template>
       </ul>
     </div>
   </header>
 </template>
 
 <script>
+import * as Types from "@types";
+
 export default {
   data() {
     return {
+      userInfo: this.$store.state.userInfo,
       navbar: [
         {
           text: "HOME",
-          link: "#"
+          link: "/"
         },
         {
-          text: "ABOUT",
+          text: "DESTINATIONS",
           link: "#"
         }
       ]
     };
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters.isLogin;
+    }
+  },
+  methods: {
+    onSignOut() {
+      // clear login state
+      this.$store.commit(Types.SIGN_OUT);
+    }
   }
 };
 </script>
@@ -59,7 +88,7 @@ export default {
     }
     .navbar {
       li {
-        margin: 0 28px;
+        margin: 0 16px;
         padding: 12px 10px;
         display: inline-block;
         a {
@@ -74,7 +103,7 @@ export default {
       }
       .signin,
       .signup {
-        margin: 0 10px;
+        margin: 0 8px;
       }
       .signin {
         padding: 8px 6px;
@@ -84,6 +113,32 @@ export default {
           color: #fff;
           margin: 0 8px;
           font-size: 16px;
+        }
+      }
+      .signout {
+        margin: 0;
+        padding: 2px 4px;
+        border-radius: 4px;
+        border: 1px solid #fff;
+        a {
+          font-size: 14px;
+        }
+        i {
+          color: #fff;
+          margin: 0 8px;
+          font-size: 14px;
+        }
+      }
+      .userInfo {
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          vertical-align: middle;
+        }
+        span {
+          margin-left: 10px;
+          font-size: 14px;
         }
       }
     }

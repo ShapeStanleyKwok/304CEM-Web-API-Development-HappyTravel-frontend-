@@ -15,8 +15,8 @@ let instance = axios.create({
 
 
 instance.interceptors.response.use(res => {
-    if (res.data.code != 200) return Promise.reject(res.data.message);
-    return res;
+    if (res.data.code == -1) return Promise.reject(res.data.message);
+    return res.data;
 }, error => {
     return Promise.reject(error);
 });

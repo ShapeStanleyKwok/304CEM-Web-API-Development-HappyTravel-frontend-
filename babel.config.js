@@ -2,5 +2,10 @@ module.exports = {
   presets: [
     '@vue/app'
   ],
-  plugins: []
+  plugins: [
+    ["import", {
+      "libraryName": "iview",
+      "libraryDirectory": "src/components"
+    }]
+  ]
 }
