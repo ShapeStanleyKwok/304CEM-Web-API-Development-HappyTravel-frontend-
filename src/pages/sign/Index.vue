@@ -24,15 +24,16 @@
             <i class="fa fa-lock"></i>
           </div>
 
-          <button class="signbutton">
+          <button class="signbutton" @click="onSignIn">
             <span>Sign In</span>
             <i class="fa fa-sign-in"></i>
           </button>
           <p class="tips">
             <span>New to HappyTravel ?</span>
-            <a href="#" @click="onSignUp">Create an account.</a>
+            <a href="#" @click="onToSignUp">Create an account.</a>
           </p>
         </div>
+
         <!-- sign up -->
         <div class="form" v-if="type === 'signup'">
           <label for="email">Email Address</label>
@@ -52,12 +53,12 @@
             <input type="password" name="comfirm" v-model="signup.comfirm">
             <i class="fa fa-lock"></i>
           </div>
-          <button class="signbutton">
+          <button class="signbutton" @click="onSignUp">
             <span>Sign Up</span>
           </button>
           <p class="tips">
             <span>Have an account ?</span>
-            <a href="#" @click="onSignIn">Sign in.</a>
+            <a href="#" @click="onToSignIn">Sign in.</a>
           </p>
         </div>
       </div>
@@ -72,13 +73,17 @@
 </template>
 
 <script>
+import MD5 from "js-md5";
+import * as Types from "@types";
+
 export default {
   data() {
     return {
+      api: this.$store.state.api,
       type: "signin",
       signin: {
-        email: "",
-        password: ""
+        email: "HT@me.com",
+        password: "123456"
       },
       signup: {
         email: "",
@@ -94,10 +99,78 @@ export default {
     } else this.type = "signin";
   },
   methods: {
+    /**
+     * @event signup
+     */
     onSignUp() {
+      let signup = this.signup;
+      // varify
+      if (!signup.email || !signup.password || !signup.comfirm) {
+        return this.$Message.warning("The data is empty");
+      }
+      if (signup.password != signup.comfirm) {
+        return this.$Message.warning("The passwords are inconsistent");
+      }
+      // request
+      this.$http
+        .post(this.api.user.register, {
+          email: signup.email,
+          password: MD5.base64(signup.password)
+        })
+        .then(
+          res => {
+            this._authSuccess(res);
+          },
+          err => {
+            this.$Message.error(err);
+          }
+        );
+    },
+    /**
+     * @event signin
+     */
+    onSignIn() {
+      let signin = this.signin;
+      // varify
+      if (!signin.email || !signin.password) {
+        return this.$Message.warning("The data is empty");
+      }
+      // request
+      this.$http({
+        url: this.api.user.authorization,
+        method: "post",
+        headers: {
+          Authorization: `HT ${signin.email}:${MD5.base64(signin.password)}`
+        }
+      }).then(
+        res => {
+          this._authSuccess(res);
+        },
+        err => {
+          this.$Message.error(err);
+        }
+      );
+    },
+    /**
+     * @method auth success
+     */
+    _authSuccess(res) {
+      this.$store.dispatch("getUserInfo", { _id: res.data._id });
+      this.$Message.success(res.message);
+      setTimeout(() => {
+        this.$router.push("/");
+      }, 1000);
+    },
+    /**
+     * @event toggle
+     */
+    onToSignUp() {
       this.type = "signup";
     },
-    onSignIn() {
+    /**
+     * @event toggle
+     */
+    onToSignIn() {
       this.type = "signin";
     }
   }
@@ -133,7 +206,7 @@ export default {
   .main {
     position: relative;
     padding-top: 5vh;
-    min-height: 680px;
+    min-height: 720px;
     height: calc(100vh - 70px - 100px);
     box-sizing: border-box;
 
