@@ -1,12 +1,12 @@
 <template>
-  <div class="sign">
+  <section class="sign">
     <header class="header">
       <a href="/">
         <img class="travel" src="@assets/images/travel.png" alt="logo">
         <span class="text">Happy Travel</span>
       </a>
     </header>
-    <main class="main">
+    <main class="main background">
       <div class="inner">
         <h2 class="title">{{ type ==='signin' ? 'Sign In' : 'Sign Up'}}</h2>
 
@@ -69,7 +69,7 @@
         <span>© 2019 Happy Travel , All Rights Reserved.</span>
       </div>
     </footer>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -97,6 +97,7 @@ export default {
     if (type) {
       this.type = type;
     } else this.type = "signin";
+    console.log(this.$router);
   },
   methods: {
     /**
@@ -155,10 +156,12 @@ export default {
      * @method auth success
      */
     _authSuccess(res) {
+      let path = this.$router.history.current.query.from || "";
+
       this.$store.dispatch("getUserInfo", { _id: res.data._id });
       this.$Message.success(res.message);
       setTimeout(() => {
-        this.$router.push("/");
+        this.$router.push("/" + path);
       }, 1000);
     },
     /**
@@ -241,19 +244,6 @@ export default {
           }
         }
       }
-    }
-    &:after {
-      background-image: url(~@assets/images/sign.svg);
-      background-repeat: repeat;
-      opacity: 0.1;
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: -1;
     }
   }
   .footer {

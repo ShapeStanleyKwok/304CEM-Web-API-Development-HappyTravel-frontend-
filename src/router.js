@@ -6,6 +6,16 @@ Vue.use(Router)
 const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
+  scrollBehavior(to, from, saveTop) {
+    if (saveTop) {
+      return saveTop;
+    } else {
+      return {
+        x: 0,
+        y: 0
+      }
+    }
+  },
   routes: [{
     path: '/',
     name: 'home',
@@ -20,6 +30,27 @@ const router = new Router({
       title: 'Happy Travel | Sign'
     },
     component: () => import('./pages/sign/Index')
+  }, , {
+    path: '/destinations',
+    name: 'destinations',
+    meta: {
+      title: 'Happy Travel | Destinations'
+    },
+    component: () => import('./pages/destinations/Index')
+  }, {
+    path: '/user',
+    name: 'user',
+    meta: {
+      title: 'Happy Travel | User'
+    },
+    component: () => import('./pages/user/Index')
+  }, {
+    path: '/details',
+    name: 'details',
+    meta: {
+      title: 'Happy Travel | Details'
+    },
+    component: () => import('./pages/details/Index')
   }]
 })
 

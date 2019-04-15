@@ -103,6 +103,8 @@ export default {
           height: 56px;
         }
         h2 {
+          margin-bottom: 10px;
+          letter-spacing: .5px;
           font-size: 14px;
           color: #868e96;
           text-transform: uppercase;
