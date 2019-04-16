@@ -101,7 +101,6 @@ export default {
     if (type) {
       this.type = type;
     } else this.type = "signin";
-    console.log(this.$router);
   },
   methods: {
     /**
@@ -233,7 +232,7 @@ export default {
       }
       .form {
         margin: 0 auto;
-        width: 100%;
+        width: 96%;
         @media screen and(min-width:1189px) {
           width: 470px;
         }

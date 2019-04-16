@@ -316,9 +316,7 @@ export default {
       margin: 0 auto;
 
       @media screen and(min-width:1189px) {
-        .main {
           width: 880px;
-        }
       }
       .gallery {
         display: flex;
