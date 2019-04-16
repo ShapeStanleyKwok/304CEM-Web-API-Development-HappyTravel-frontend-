@@ -23,6 +23,7 @@ export default {
 
 <style>
 #app {
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

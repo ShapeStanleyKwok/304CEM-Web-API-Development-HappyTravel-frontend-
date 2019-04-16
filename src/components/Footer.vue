@@ -85,26 +85,41 @@ export default {
 <style lang="scss" scoped>
 .footer {
   color: #dee2e6;
-
   .meta {
-    height: 200px;
     background: #343a40;
     display: flex;
     align-items: center;
+    @media screen and(min-width:1187px) {
+      height: 200px;
+    }
     .inner {
-      min-width: 1190px;
+      width: 100%;
+      @media screen and(min-width:1187px) {
+        width: 1190px;
+      }
+
       margin: 0 auto;
       display: flex;
+      flex-wrap: wrap;
+
       align-items: center;
       .inner-item {
-        width: 25%;
         text-align: center;
+        width: 50%;
+        padding: 20px 0px;
+        @media screen and(min-width:1187px) {
+          width: 25%;
+        }
+        @media screen and (max-width: 570px) {
+          width: 100%;
+        }
+
         img {
           height: 56px;
         }
         h2 {
           margin-bottom: 10px;
-          letter-spacing: .5px;
+          letter-spacing: 0.5px;
           font-size: 14px;
           color: #868e96;
           text-transform: uppercase;
@@ -145,7 +160,10 @@ export default {
     background: #212529;
     text-align: center;
     .inner {
-      width: 1190px;
+      min-width: 100%;
+      @media screen and(min-width:1187px) {
+        min-width: 1190px;
+      }
       margin: 0 auto;
     }
   }

@@ -10,10 +10,10 @@
       <h3>{{ total }} destinations in total.</h3>
       <button class="more" @click="onMore" :disabled="moreAble">Discover More</button>
 
-      <h2 class="separator">New</h2>
+      <h2 class="separator">New Destination</h2>
       <div v-if="isLogin" class="form">
         <label for="banner">BANNER:</label>
-        <Upload text="Upload Banner" @upload="upload" name="banner"/>
+        <Upload text="Upload Banner" @upload="upload" name="banner" />
 
         <label for="name">NAME:</label>
         <input v-model="form.name" name="name">
@@ -156,10 +156,6 @@ export default {
 <style lang="scss" scoped>
 .destinations {
   .main {
-    width: 1190px;
-    min-height: 1280px;
-    margin: 0 auto;
-    text-align: center;
     .gallery {
       display: flex;
       justify-content: center;
@@ -186,7 +182,10 @@ export default {
       margin: 120px auto;
     }
     .form {
-      width: 880px;
+      width: 80%;
+      @media screen and(min-width:1189px) {
+        width: 880px;
+      }
 
       input {
         height: 40px;

@@ -5,7 +5,7 @@
       <h2 class="separator">USERINFO</h2>
       <div class="userinfo">
         <label for>AVATAR:</label>
-        <Upload width="120px" height="120px" :srcPath="userInfo.avatar" @upload="upload"/>
+        <Upload size="mini" :srcPath="userInfo.avatar" @upload="upload"/>
 
         <div class="item">
           <label for>EMAIL:</label>
@@ -39,7 +39,9 @@
         <p v-if="destinations.length === 0" class="nodata">No data.</p>
 
         <tr v-for="(item,idx) in destinations" :key="idx" v-else>
-          <td>{{ item.name }}</td>
+          <td>
+            <router-link :to="{path:'details',query:{id:item._id}}">{{ item.name }}</router-link>
+          </td>
           <td>{{ item.address}}</td>
           <td>
             <img class="logo" :src="item.banner" alt>
@@ -67,7 +69,11 @@
         <p v-if="comments.length === 0" class="nodata">No data.</p>
 
         <tr v-for="(item,idx) in comments" :key="idx" v-else>
-          <td>{{ item.destination.name }}</td>
+          <td>
+            <router-link
+              :to="{path:'details',query:{id:item.destination._id}}"
+            >{{ item.destination.name }}</router-link>
+          </td>
           <td>{{ item.content }}</td>
           <td>
             <img
@@ -157,7 +163,7 @@ export default {
      */
     _fetchComment() {
       this.$http
-        .get(this.api.comment.replace('/{id}',''), {
+        .get(this.api.comment.replace("/{id}", ""), {
           params: {
             userId: this.id
           }
@@ -233,72 +239,88 @@ export default {
 <style lang="scss" scoped>
 .user {
   .main {
-    width: 940px;
-    margin: 0 auto;
-    min-height: 420px;
-  }
-  .userinfo {
-    text-align: center;
-    padding: 20px 10px;
-    background: #fff;
-    border-radius: 4px;
-    label {
+    width: 96%;
+    @media screen and(min-width:1189px) {
+      width: 960px;
+    }
+    .userinfo {
       text-align: center;
-      width: 30%;
-      margin-right: 12px;
+      padding: 20px 10px;
+      background: #fff;
+      border-radius: 4px;
+
+      label {
+        text-align: center;
+        width: 30%;
+        margin-right: 12px;
+        font-size: 14px;
+      }
+
+      input {
+        width: 50%;
+        height: 40px;
+        line-height: 40px;
+      }
+
+      .item {
+        display: flex;
+        align-items: center;
+        margin: 22px 0;
+      }
+
+      .update {
+        display: block;
+        margin: 40px auto;
+      }
+
+      .tips {
+        text-align: right;
+        color: #666;
+        font-size: 14px;
+        margin-right: 40px;
+      }
     }
-    input {
-      width: 50%;
-    }
-    .item {
-      display: flex;
-      align-items: center;
-      margin: 22px 0;
-    }
-    .update {
-      display: block;
-      margin: 40px auto;
-    }
-    .tips {
-      text-align: right;
-      color: #666;
-      font-size: 14px;
-      margin-right: 40px;
-    }
-  }
-  table {
-    width: 100%;
-    margin: 40px 0;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    th {
-      font-size: 18px;
-      padding: 20px 0;
-      border-top: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;
-    }
-    td {
-      text-align: center;
-      border-bottom: 1px solid #ddd;
-    }
-    .logo {
-      width: 80px;
-      height: 80px;
-      margin: 5px;
-    }
-    .description {
-      width: 220px;
-      margin-left: 0;
-      margin-right: 0;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-    .delete {
-      background-color: #e26d6d;
-    }
-    .nodata {
-      font-size: 16px;
+
+    table {
+      width: 100%;
+      margin: 40px 0;
+      border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      th {
+        font-size: 18px;
+        padding: 20px 0;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+      }
+
+      td {
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        overflow: hidden;
+      }
+
+      .logo {
+        width: 80px;
+        height: 80px;
+        margin: 5px;
+      }
+
+      .description {
+        width: 220px;
+        margin-left: 0;
+        margin-right: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .delete {
+        background-color: #e26d6d;
+      }
+
+      .nodata {
+        font-size: 16px;
+      }
     }
   }
 }

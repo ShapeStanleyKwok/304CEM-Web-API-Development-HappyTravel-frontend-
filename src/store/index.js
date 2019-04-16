@@ -8,7 +8,17 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    api: {},
+    api: {
+      comment: "/api/comment/{id}",
+      destination: "/api/destination/{id}",
+      file: "/api/file",
+      self: "/api",
+      user: {
+        authorization: "/api/user/authorization",
+        register: "/api/user",
+        userInfo: "/api/user/{id}"
+      }
+    },
     userId: '',
     userInfo: {}
   },

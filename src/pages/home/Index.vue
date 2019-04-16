@@ -2,31 +2,30 @@
   <section class="home background">
     <Header/>
 
-    <main class="main">
-      <!-- top -->
-      <div class="top">
-        <div class="banner" ref="banner">
-          <swiper :options="swiperOption" au>
-            <swiper-slide v-for="(item,idx) in images" :key="idx">
-              <img :src="item" alt>
-            </swiper-slide>
+    <!-- top -->
+    <div class="top">
+      <div class="banner" ref="banner">
+        <swiper :options="swiperOption">
+          <swiper-slide v-for="(item,idx) in images" :key="idx">
+            <img :src="item" alt class="images">
+          </swiper-slide>
 
-            <div class="swiper-pagination" slot="pagination"></div>
-          </swiper>
-        </div>
-        <div class="info">
-          <hr>
-          <p>
-            OUR BEST OFFERS
-            <br>CHECK OUT OUR BEST TOURS
-          </p>
-          <hr>
-        </div>
-        <div class="arrow fade" @click="onScroll">
-          <i class="fa fa-arrow-down"></i>
-        </div>
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
       </div>
-
+      <div class="info">
+        <hr>
+        <p>
+          OUR BEST OFFERS
+          <br>CHECK OUT OUR BEST TOURS
+        </p>
+        <hr>
+      </div>
+      <div class="arrow fade" @click="onScroll">
+        <i class="fa fa-arrow-down"></i>
+      </div>
+    </div>
+    <main class="main">
       <!-- newest -->
       <div class="newest">
         <h2 class="separator">Newest destination</h2>
@@ -177,13 +176,69 @@ export default {
 }
 
 .home {
+  .top {
+    position: relative;
+    @media screen and(min-width:570px) {
+      margin-top: -100px;
+      z-index: 2;
+    }
+    .banner {
+      width: 100%;
+      height: 640px;
+      @media screen and (max-width: 980px) {
+        height: 320px;
+      }
+      .images {
+        width: 100%;
+        height: 640px;
+        @media screen and (max-width: 980px) {
+          height: 320px;
+        }
+      }
+    }
+    .info {
+      position: absolute;
+      z-index: 3;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 1.8;
+      @media screen and (max-width: 980px) {
+        font-size: 28px;
+        line-height: 1.5;
+      }
+      @media screen and (max-width: 570px) {
+        font-size: 24px;
+        line-height: 1.2;
+      }
+
+      hr {
+        height: 3px;
+        color: #fff;
+        background: #fff;
+        border: none;
+        outline: none;
+      }
+    }
+    .arrow {
+      cursor: pointer;
+      position: absolute;
+      z-index: 3;
+      left: 50%;
+      bottom: 5%;
+      transform: translate(-50%, 0);
+      color: #fff;
+      font-size: 28px;
+    }
+  }
   .main {
-    margin-top: -100px;
-    z-index: 2;
     .features,
     .introduce,
     .newest {
-      width: 1190px;
+      width: 100%;
       margin: 0 auto;
       text-align: center;
       .allButton {
@@ -195,13 +250,18 @@ export default {
       justify-content: center;
       margin-top: 5vh;
       margin-bottom: 5vh;
+      @media screen and (max-width: 980px) {
+        width: 96%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
       .item {
         div {
           img {
             width: 96px;
             height: 96px;
           }
-
           margin: 0 60px;
           padding: 10px;
           background: #228be6;
@@ -217,43 +277,10 @@ export default {
         padding: 0 80px;
         font-size: 17px;
         text-align: center;
-      }
-    }
-    .top {
-      position: relative;
-      .banner {
-        width: 100%;
-        height: 640px;
-        min-width: 1190px;
-        min-height: 640px;
-      }
-      .info {
-        position: absolute;
-        z-index: 3;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        color: #fff;
-        font-size: 34px;
-        font-weight: 800;
-        line-height: 1.8;
-        hr {
-          height: 3px;
-          color: #fff;
-          background: #fff;
-          border: none;
-          outline: none;
+        @media screen and (max-width: 980px) {
+          width: 96%;
+          padding: 0;
         }
-      }
-      .arrow {
-        cursor: pointer;
-        position: absolute;
-        z-index: 3;
-        left: 50%;
-        bottom: 5%;
-        transform: translate(-50%, 0);
-        color: #fff;
-        font-size: 28px;
       }
     }
   }

@@ -7,18 +7,11 @@
           <img class="banner" :src="destination.banner" alt="banner" v-if="destination.banner">
           <h2>{{destination.name}}</h2>
           <h4>{{destination.address}}</h4>
-          <h5>created at: {{ destination.created.substring(0,10) }}</h5>
           <h5>updated at: {{ destination.updated.substring(0,10) }}</h5>
           <p>{{destination.description}}</p>
         </template>
         <template v-else>
-          <Upload
-            width="950px"
-            height="460px"
-            :srcPath="destination.banner"
-            @upload="uploadBanner"
-            class="banner"
-          />
+          <Upload :srcPath="destination.banner" @upload="uploadBanner" class="banner"/>
 
           <input type="text" v-model="destination.name">
           <input type="text" v-model="destination.address">
@@ -35,7 +28,19 @@
       <p v-if="comments.length ===0" class="nocomments">No comments still.</p>
 
       <ul v-else class="commentList">
-        <li v-for="(item,idx) in comments" :key="idx"></li>
+        <li v-for="(item,idx) in comments" :key="idx" class="item">
+          <div class="top">
+            <img :src="item.user.avatar" class="avatar">
+            <span class="nickname">{{ item.user.nickname}}</span>
+            <span class="created">{{ item.created && item.created.substring(0,10)}}</span>
+          </div>
+          <div class="content">
+            <p>{{item.content}}</p>
+          </div>
+          <div class="gallery">
+            <img v-for="(gallery,idx) in item.gallery" :key="idx" :src="gallery" alt>
+          </div>
+        </li>
       </ul>
 
       <h2 class="separator">New Comment</h2>
@@ -51,14 +56,7 @@
             <i class="fa fa-close" @click="onClose(idx)"></i>
           </li>
           <li class="item">
-            <Upload
-              text="Upload"
-              @upload="uploadGallery"
-              width="100px"
-              height="100px"
-              :isCover="false"
-            />
-            <i class="fa fa-upload"></i>
+            <Upload text="Upload" @upload="uploadGallery" size="mini" :isCover="false"/>
           </li>
         </ul>
 
@@ -183,7 +181,7 @@ export default {
         })
         .then(
           res => {
-            console.log(res);
+            this.comments = res.data;
           },
           err => {
             this.$Message.error(err);
@@ -232,21 +230,65 @@ export default {
 <style lang="scss" scoped>
 .details {
   .main {
-    width: 1190px;
-    min-height: 1280px;
-    margin: 0 auto;
-    text-align: center;
+    .commentList {
+      margin: 0 auto;
+      width: 96%;
+      @media screen and(min-width: 1189px) {
+        width: 80%;
+      }
+
+      .item {
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin-bottom: 20px;
+        .top {
+          display: flex;
+          align-items: center;
+          .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+          }
+          .nickname {
+            margin-left: 20px;
+            font-size: 16px;
+          }
+          .created {
+            margin-left: 20px;
+            color: gray;
+            font-size: 12px;
+            float: right;
+          }
+        }
+        .content {
+          text-align: left;
+        }
+        .gallery {
+          display: flex;
+          img {
+            width: 120px;
+            height: 120px;
+            margin-right: 10px;
+            padding: 4px;
+            box-sizing: border-box;
+            border: 1px solid #d9d9d9;
+          }
+        }
+      }
+    }
     .nocomments {
       margin: 36px 0;
       font-size: 18px;
     }
     .destination {
       .banner {
-        min-width: 950px;
-        min-height: 460px;
-        width: 950px;
-        height: 460px;
-        margin: 20px;
+        width: 100%;
+        height: 35vh;
+        @media screen and(min-width:1189px) {
+          width: 980px;
+          height: 580px;
+          margin: 20px 0;
+        }
       }
       h2,
       h4,
@@ -270,8 +312,12 @@ export default {
       }
     }
     .form {
-      width: 880px;
+      width: 96%;
       margin: 0 auto;
+
+      @media screen and(min-width:1189px) {
+          width: 880px;
+      }
       .gallery {
         display: flex;
         .item {
