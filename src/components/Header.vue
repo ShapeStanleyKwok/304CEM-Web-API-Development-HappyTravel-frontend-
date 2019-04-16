@@ -30,7 +30,6 @@
           </li>
           <li class="signout" v-if="isLogin">
             <a href="#" @click="onSignOut">SIGN OUT</a>
-            <i class="fa fa-sign-out"></i>
           </li>
         </template>
       </ul>
@@ -92,18 +91,42 @@ export default {
   z-index: 3;
   .inner {
     width: 980px;
-    height: 90px;
+    height: 100px;
+    @media screen and (max-width: 570px) {
+      background: #343a40;
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .logo {
       height: 80px;
+      @media screen and (max-width: 570px) {
+        display: none;
+      }
     }
     .navbar {
+      @media screen and (max-width: 570px) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 0;
+      }
       li {
-        margin: 0 16px;
+        margin: 0 6px;
         display: inline-block;
+        @media screen and (min-width: 1187px) {
+          margin: 0 16px;
+        }
+        @media screen and (max-width: 570px) {
+          margin-bottom: 22px;
+        }
         a {
           padding: 12px 10px;
           letter-spacing: 0.5px;
@@ -132,14 +155,7 @@ export default {
       .signout {
         margin: 0;
         padding: 2px 4px;
-        border-radius: 4px;
-        border: 1px solid #fff;
         a {
-          font-size: 14px;
-        }
-        i {
-          color: #fff;
-          margin: 0 8px;
           font-size: 14px;
         }
       }

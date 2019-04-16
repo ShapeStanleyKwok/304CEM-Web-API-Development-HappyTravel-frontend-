@@ -188,13 +188,16 @@ export default {
 .sign {
   color: #495057;
   .header {
-    width: 1190px;
     margin: 0 auto;
     height: 100px;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 96%;
+    @media screen and(min-width:1189px) {
+      width: 1190px;
+    }
     .travel {
       height: 40px;
       vertical-align: middle;
@@ -213,21 +216,27 @@ export default {
   .main {
     position: relative;
     padding-top: 5vh;
-    min-height: 720px;
     height: calc(100vh - 70px - 100px);
     box-sizing: border-box;
 
     .inner {
-      width: 1190px;
       margin: 0 auto;
       text-align: center;
+      width: 96%;
+      @media screen and(min-width:1189px) {
+        width: 1190px;
+      }
+
       .title {
         margin: 0 0 22px;
         font-size: 48px;
       }
       .form {
         margin: 0 auto;
-        width: 470px;
+        width: 100%;
+        @media screen and(min-width:1189px) {
+          width: 470px;
+        }
         padding: 12px 22px;
         background: #fff;
         border-radius: 2px;
@@ -256,8 +265,12 @@ export default {
     text-align: center;
     line-height: 70px;
     background: #212529;
+
     .inner {
-      width: 1190px;
+      width: 96%;
+      @media screen and(min-width:1189px) {
+        width: 1190px;
+      }
       margin: 0 auto;
       color: #fff;
     }

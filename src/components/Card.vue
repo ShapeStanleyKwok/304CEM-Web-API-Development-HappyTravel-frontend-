@@ -1,6 +1,6 @@
 <template>
   <ul class="card">
-    <li v-for="(item,idx) in destinations" :key="idx" :class="idx%2 !=0 ? 'item even': 'item'">
+    <li v-for="(item,idx) in destinations" :key="idx" :class="idx % 2 !=0 ? 'item even': 'item'">
       <img :src="item.banner">
       <div class="detials">
         <h2>{{ item.name }}</h2>
@@ -32,6 +32,10 @@ export default {
   width: 80%;
   display: flex;
   flex-direction: column;
+  @media screen and (max-width: 980px) {
+    width: 96%;
+  }
+
   .even {
     flex-direction: row-reverse;
   }
@@ -40,16 +44,27 @@ export default {
     margin-bottom: 40px;
     border: 1px solid #ddd;
     border-radius: 4px;
+
+    @media screen and (max-width: 980px) {
+      flex-direction: column;
+    }
+
     img {
-      min-width: 380px;
-      min-height: 380px;
       width: 380px;
       height: 380px;
+      min-height: 380px;
+      min-width: 380px;
+
+      @media screen and (max-width: 980px) {
+        width: 100%;
+        height: 100%;
+        min-height: 100%;
+        min-width: 100%;
+      }
     }
     .detials {
       padding: 20px 20px;
       text-align: center;
-      max-height: 380px;
       overflow: hidden;
       flex-grow: 1;
       p {

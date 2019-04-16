@@ -13,9 +13,32 @@ body {
     font-size: 14px;
     font-family: 'Montserrat', Arial, Helvetica, sans-serif;
     color: #111;
+    overflow-x: hidden;
     overflow-y: auto;
-    line-height: 1.5
+    line-height: 1.5;
 }
+
+.main {
+    width: 100%;
+    min-height: 50vh;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+@media screen and(min-width:1189px) {
+    .main {
+        width: 1190px;
+    }
+}
+
+@media screen and (max-width:980px) {}
+
+
+@media screen and(max-width:1187px) {}
+
+
+
 
 .separator {
     color: #495057;
@@ -24,22 +47,8 @@ body {
     margin: 42px 0;
     text-align: center;
 
-    &::before,
-    &::after {
-        position: absolute;
-        top: 50%;
-        width: 22%;
-        height: 4px;
-        content: "";
-        background: #495057;
-    }
-
-    &::before {
-        left: 10%;
-    }
-
-    &::after {
-        right: 10%;
+    @media screen and (max-width: 980px) {
+        font-size: 26px;
     }
 }
 
