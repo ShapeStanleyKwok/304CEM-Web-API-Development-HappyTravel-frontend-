@@ -7,10 +7,15 @@
 <script>
 export default {
   /**
-   * fetch urls
+   * fetch urls and auto login
    */
   mounted() {
     this.$store.dispatch("getServerUrls");
+
+    const _id = this.$cookies.get("_id");
+    if (_id) {
+      this.$store.dispatch("getUserInfo", { _id });
+    }
   }
 };
 </script>

@@ -1,7 +1,6 @@
 @import './reset.scss';
 @import './form.scss';
 @import './fa.scss';
-@import './ani.scss';
 
 
 
@@ -16,4 +15,49 @@ body {
     color: #111;
     overflow-y: auto;
     line-height: 1.5
+}
+
+.separator {
+    color: #495057;
+    font-size: 32px;
+    position: relative;
+    margin: 42px 0;
+    text-align: center;
+
+    &::before,
+    &::after {
+        position: absolute;
+        top: 50%;
+        width: 22%;
+        height: 4px;
+        content: "";
+        background: #495057;
+    }
+
+    &::before {
+        left: 10%;
+    }
+
+    &::after {
+        right: 10%;
+    }
+}
+
+.background {
+    z-index: 1;
+    position: relative;
+
+    &:after {
+        background-image: url(~@assets/images/sign.svg);
+        background-repeat: repeat;
+        opacity: 0.05;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -5;
+    }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <section class="home background">
     <Header/>
 
     <main class="main">
@@ -29,26 +29,17 @@
 
       <!-- newest -->
       <div class="newest">
-        <h2 class="sperator">Newest destination</h2>
+        <h2 class="separator">Newest destination</h2>
+        <Card :destinations="newest"/>
 
-        <ul class="destinations">
-          <li v-for="(item,idx) in newest" :key="idx">
-            <img :src="item.banner">
-            <div class="detials">
-              <h2>{{ item.name }}</h2>
-              <h4>{{ item.address }}</h4>
-              <p>{{item.description}}</p>
-              <button>See details</button>
-            </div>
-          </li>
-        </ul>
-
-        <button class="allButton">All Destinations</button>
+        <router-link to="destinations">
+          <button class="allButton">All Destinations</button>
+        </router-link>
       </div>
 
       <!-- introduce -->
       <div class="introduce">
-        <h2 class="sperator">Why Happy Travel ?</h2>
+        <h2 class="separator">Why Happy Travel ?</h2>
         <p>
           At this moment.
           <br>who is paying attention to the same travel destination with you?
@@ -82,16 +73,16 @@
     </main>
 
     <Footer/>
-  </div>
+  </section>
 </template>
 
 <script>
 import Header from "@components/Header";
 import Footer from "@components/Footer";
+import Card from "@components/Card";
 export default {
   data() {
     return {
-      api: this.$store.state.api,
       swiperOption: {
         spaceBetween: 30,
         pagination: {
@@ -113,9 +104,15 @@ export default {
       newest: []
     };
   },
+  computed: {
+    api() {
+      return this.$store.state.api;
+    }
+  },
   components: {
     Header,
-    Footer
+    Footer,
+    Card
   },
   mounted() {
     this._fetchDestination();
@@ -127,13 +124,15 @@ export default {
      */
     _fetchDestination() {
       this.$http
-        .get(this.api.destination, {
-          sort: "created",
-          min: 0,
-          max: 4
+        .get(this.api.destination.replace("/{id}", ""), {
+          params: {
+            sort: "created",
+            min: 0,
+            max: 3
+          }
         })
         .then(res => {
-          this.newest = res.data;
+          this.newest = res.data.destinations;
         });
     },
     /**
@@ -189,62 +188,6 @@ export default {
       text-align: center;
       .allButton {
         margin: 40px 0;
-      }
-      .destinations {
-        margin: 0 auto;
-        width: 80%;
-        display: flex;
-        flex-direction: column;
-        li {
-          display: flex;
-          margin-bottom: 40px;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          img {
-            min-width: 380px;
-            min-height: 380px;
-            width: 380px;
-            height: 380px;
-          }
-          .detials {
-            padding: 20px 20px;
-            p {
-              line-height: 1.8;
-              text-align: left;
-            }
-            button {
-              padding: 8px 8px;
-              background: #fff;
-              color: #495057;
-              &:hover {
-                color: #fff;
-                background: #228be6;
-              }
-              transition: all 0.4s ease-in-out;
-            }
-          }
-        }
-      }
-    }
-    .sperator {
-      color: #495057;
-      font-size: 32px;
-      position: relative;
-      margin: 22px 0;
-      &::before,
-      &::after {
-        position: absolute;
-        top: 50%;
-        width: 25%;
-        height: 4px;
-        content: "";
-        background: #495057;
-      }
-      &::before {
-        left: 5%;
-      }
-      &::after {
-        right: 5%;
       }
     }
     .features {

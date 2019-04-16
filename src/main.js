@@ -12,6 +12,10 @@ import lang from 'iview/dist/locale/en-US'
 require('iview/dist/styles/iview.css');
 require('@styles/styles.scss');
 
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
+
+
 Vue.config.productionTip = false
 
 

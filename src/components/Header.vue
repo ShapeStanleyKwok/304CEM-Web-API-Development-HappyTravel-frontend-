@@ -1,31 +1,32 @@
 <template>
-  <header class="header">
+  <header :class="background === 'dark'? 'header dark': 'header'">
     <div class="inner">
-      <a href="/">
+      <router-link to="home">
         <img class="logo" src="@assets/images/logo.png" alt="logo">
-      </a>
+      </router-link>
+
       <ul class="navbar">
         <li v-for="(item,idx) in navbar" :key="idx">
-          <a :href="item.link">{{ item.text }}</a>
+          <router-link :to="item.link">{{ item.text }}</router-link>
         </li>
 
         <template v-if="!isLogin">
           <li class="signin">
-            <a href="/sign?type=signin">Sign in</a>
+            <router-link :to="{path:'/sign',query:{type:'signin'}}">Sign in</router-link>
             <i class="fa fa-sign-in"></i>
           </li>
 
           <li class="signup">
-            <a href="/sign?type=signup">Sign up</a>
+            <router-link :to="{path:'/sign',query:{type:'signup'}}">Sign up</router-link>
           </li>
         </template>
 
         <template else>
           <li class="userInfo" v-if="isLogin">
-            <a href="/user">
+            <router-link to="user">
               <img :src="userInfo.avatar" alt="userInfo">
               <span>{{ userInfo.nickname }}</span>
-            </a>
+            </router-link>
           </li>
           <li class="signout" v-if="isLogin">
             <a href="#" @click="onSignOut">SIGN OUT</a>
@@ -41,9 +42,11 @@
 import * as Types from "@types";
 
 export default {
+  props: {
+    background: String
+  },
   data() {
     return {
-      userInfo: this.$store.state.userInfo,
       navbar: [
         {
           text: "HOME",
@@ -51,7 +54,7 @@ export default {
         },
         {
           text: "DESTINATIONS",
-          link: "#"
+          link: "/destinations"
         }
       ]
     };
@@ -59,23 +62,34 @@ export default {
   computed: {
     isLogin() {
       return this.$store.getters.isLogin;
+    },
+    userInfo() {
+      return this.$store.state.userInfo;
     }
   },
   methods: {
     onSignOut() {
       // clear login state
       this.$store.commit(Types.SIGN_OUT);
+      // clear cookies
+      this.$cookies.remove("_id");
+      // messgae
+      this.$Message.success("success");
+      this.$router.push("/");
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.dark {
+  background: #343a40;
+  border-bottom: 1px solid;
+}
 .header {
   width: 100%;
   position: relative;
   z-index: 3;
-
   .inner {
     width: 980px;
     height: 90px;
@@ -89,9 +103,9 @@ export default {
     .navbar {
       li {
         margin: 0 16px;
-        padding: 12px 10px;
         display: inline-block;
         a {
+          padding: 12px 10px;
           letter-spacing: 0.5px;
           font-size: 15px;
           color: #fff;

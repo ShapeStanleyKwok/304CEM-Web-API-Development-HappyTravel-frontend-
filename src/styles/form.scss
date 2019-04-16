@@ -52,8 +52,20 @@ input {
     }
 }
 
+textarea {
+    font-size: 1.25em;
+    height: 120px;
+    padding: 10px 8px;
+    color: #192531;
+    border: 1px solid #ddd;
+    outline: none;
+    width: 100%;
+    resize: none;
+}
+
+
 button {
-    height: $form-height;
+    max-height: $form-height;
     border: none;
     outline: none;
     background: #228be6;
@@ -61,11 +73,17 @@ button {
     border: 1px solid #f1f1f1;
     border-radius: $border-radius;
     font-size: 1em;
-    padding: 12px 10px;
+    padding: 14px 12px;
     text-decoration: none;
     text-shadow: none;
     box-shadow: none;
     cursor: pointer;
     transition: 0.25s;
     color: #fff;
+    border-radius: 4px;
+}
+
+button[disabled] {
+    color: #228be6;
+    background: #f5f5f5;
 }

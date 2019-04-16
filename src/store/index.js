@@ -21,7 +21,6 @@ export default new Vuex.Store({
     [Types.SIGN_OUT](state) {
       state.userId = ''
       state.userInfo = {}
-
     },
     [Types.SET_USER_ID](state, payload) {
       state.userId = payload._id || ''
@@ -40,9 +39,7 @@ export default new Vuex.Store({
     getUserInfo(ctx, payload) {
       ctx.commit(Types.SET_USER_ID, payload)
       // fetch userInfo
-      let userInfoURL = ctx.state.api.user.userInfo
-
-      axios.get(userInfoURL.replace('{id}', payload._id))
+      axios.get(`/api/user/${payload._id}`)
         .then(res => {
           ctx.commit(Types.SET_USER_INFO, {
             userInfo: res.data
