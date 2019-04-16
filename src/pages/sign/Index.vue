@@ -79,7 +79,6 @@ import * as Types from "@types";
 export default {
   data() {
     return {
-      api: this.$store.state.api,
       type: "signin",
       signin: {
         email: "HT@me.com",
@@ -91,6 +90,11 @@ export default {
         comfirm: ""
       }
     };
+  },
+  computed: {
+    api() {
+      return this.$store.state.api;
+    }
   },
   mounted() {
     const type = this.$router.history.current.query.type;

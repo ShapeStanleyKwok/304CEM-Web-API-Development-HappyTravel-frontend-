@@ -47,7 +47,6 @@ export default {
   },
   data() {
     return {
-      userInfo: this.$store.state.userInfo,
       navbar: [
         {
           text: "HOME",
@@ -63,6 +62,9 @@ export default {
   computed: {
     isLogin() {
       return this.$store.getters.isLogin;
+    },
+    userInfo() {
+      return this.$store.state.userInfo;
     }
   },
   methods: {
@@ -73,6 +75,7 @@ export default {
       this.$cookies.remove("_id");
       // messgae
       this.$Message.success("success");
+      this.$router.push("/");
     }
   }
 };

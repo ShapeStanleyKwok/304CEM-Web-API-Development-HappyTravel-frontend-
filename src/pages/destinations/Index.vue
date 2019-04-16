@@ -6,10 +6,12 @@
       <div class="gallery">
         <Card :destinations="destinations"/>
       </div>
+
+      <h3>{{ total }} destinations in total.</h3>
       <button class="more" @click="onMore" :disabled="moreAble">Discover More</button>
 
       <h2 class="separator">New</h2>
-      <form ref="form" v-if="isLogin" class="form">
+      <div v-if="isLogin" class="form">
         <label for="banner">BANNER:</label>
         <Upload text="Upload Banner" @upload="upload" name="banner"/>
 
@@ -23,14 +25,14 @@
         <textarea v-model="form.description" name="description"/>
 
         <button :disabled="submitAble" @click="onSubmit">SUBMIT</button>
-      </form>
+      </div>
 
       <router-link
         v-else
         class="signin"
         :to="{path: '/sign',query:{type:'signin',from:'destinations'}}"
       >
-        <button>You can add a destination after signing in</button>
+        <button class="siginbutton">You can add a destination after signing in</button>
       </router-link>
     </main>
 
@@ -47,11 +49,11 @@ import Upload from "@components/Upload";
 export default {
   data() {
     return {
-      api: this.$store.state.api,
       min: 0,
       max: 4,
       per: 2,
       destinations: [],
+      total: 0,
       moreAble: false,
       form: {
         userId: this.$store.state.userId || "5cb1946038a09e2f88cdcb94",
@@ -66,6 +68,9 @@ export default {
   computed: {
     isLogin() {
       return this.$store.getters.isLogin;
+    },
+    api() {
+      return this.$store.state.api;
     }
   },
   components: {
@@ -108,12 +113,15 @@ export default {
           }
         })
         .then(res => {
-          if (res.data.length === 0) {
+          const data = res.data.destinations;
+          const total = res.data.total;
+          if (data.length === 0) {
             this.$Message.info("No more destinations.");
             this.moreAble = true;
             return;
           }
-          this.destinations = this.destinations.concat(res.data);
+          this.total = total;
+          this.destinations = this.destinations.concat(data);
         });
     },
     /**
@@ -184,10 +192,14 @@ export default {
         height: 40px;
         border: none;
         border-bottom: 1px solid #ddd;
+        &:focus {
+          border-bottom: 1px solid #228be6;
+        }
+        transition: all 0.4s ease-in-out;
       }
-      button {
-        margin: 40px 0;
-      }
+    }
+    button {
+      margin: 40px 0;
     }
   }
 }

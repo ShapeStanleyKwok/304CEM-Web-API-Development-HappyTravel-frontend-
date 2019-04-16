@@ -24,6 +24,7 @@
 
         <button class="update" @click="onUpdate">Update</button>
       </div>
+
       <h2 class="separator">Your destinations</h2>
       <table class="destinations">
         <tr>
@@ -44,9 +45,9 @@
             <img class="logo" :src="item.banner" alt>
           </td>
           <td>
-            <span class="description">{{ item.description.substring(0,30)}} ...</span>
+            <span class="description">{{ item.description && item.description.substring(0,30)}} ...</span>
           </td>
-          <td>{{ item.created.substring(0,10) }}</td>
+          <td>{{ item.created &&item.created.substring(0,10) }}</td>
           <td>
             <button class="delete" @click="onDeleteDestination(idx)">Delete</button>
           </td>
@@ -54,6 +55,34 @@
       </table>
 
       <h2 class="separator">Your comments</h2>
+      <table class="comments">
+        <tr>
+          <th>destination</th>
+          <th>content</th>
+          <th>gallery</th>
+          <th>created at</th>
+          <th>operate</th>
+        </tr>
+
+        <p v-if="comments.length === 0" class="nodata">No data.</p>
+
+        <tr v-for="(item,idx) in comments" :key="idx" v-else>
+          <td>{{ item.destination.name }}</td>
+          <td>{{ item.content }}</td>
+          <td>
+            <img
+              class="logo"
+              :src="gallery"
+              v-for="(gallery,idx) in item.gallery.slice(0,2)"
+              :key="idx"
+            >
+          </td>
+          <td>{{ item.created && item.created.substring(0,10) }}</td>
+          <td>
+            <button class="delete" @click="onDeleteComment(idx)">Delete</button>
+          </td>
+        </tr>
+      </table>
     </main>
     <Footer/>
   </section>
@@ -68,8 +97,6 @@ import * as Types from "@types";
 export default {
   data() {
     return {
-      api: this.$store.state.api,
-      id: this.$store.state.userId,
       userInfo: {
         address: "",
         avatar: "",
@@ -77,11 +104,21 @@ export default {
         nickname: "",
         updated: ""
       },
-      destinations: []
+      destinations: [],
+      comments: []
     };
+  },
+  computed: {
+    id() {
+      return this.$store.state.userId;
+    },
+    api() {
+      return this.$store.state.api;
+    }
   },
   mounted() {
     this._setValues();
+    this._fetchComment();
     this._fetchDestination();
   },
   components: {
@@ -112,8 +149,27 @@ export default {
           }
         })
         .then(res => {
-          this.destinations = res.data;
+          this.destinations = res.data.destinations;
         });
+    },
+    /**
+     * @method find user's comments
+     */
+    _fetchComment() {
+      this.$http
+        .get(this.api.comment.replace('/{id}',''), {
+          params: {
+            userId: this.id
+          }
+        })
+        .then(
+          res => {
+            this.comments = res.data;
+          },
+          err => {
+            this.$Message.error(err);
+          }
+        );
     },
     /**
      * @method update
@@ -141,7 +197,6 @@ export default {
 
       this.$http.delete(this.api.destination.replace("{id}", id)).then(
         res => {
-          console.log(res);
           // reload
           this._fetchDestination();
           this.$Message.success("success");
@@ -151,7 +206,24 @@ export default {
         }
       );
     },
-    upload(path = "") {
+    /**
+     * @method delete
+     */
+    onDeleteComment(idx) {
+      const id = this.comments[idx]._id;
+
+      this.$http.delete(this.api.comment.replace("{id}", id)).then(
+        res => {
+          // reload
+          this._fetchComment();
+          this.$Message.success("success");
+        },
+        err => {
+          this.$Message.error(err.toString());
+        }
+      );
+    },
+    upload(path) {
       this.userInfo.avatar = path;
     }
   }
@@ -196,7 +268,7 @@ export default {
   }
   table {
     width: 100%;
-    margin: 20px;
+    margin: 40px 0;
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
     th {
@@ -212,6 +284,7 @@ export default {
     .logo {
       width: 80px;
       height: 80px;
+      margin: 5px;
     }
     .description {
       width: 220px;

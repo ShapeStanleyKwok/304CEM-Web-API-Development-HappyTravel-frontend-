@@ -83,7 +83,6 @@ import Card from "@components/Card";
 export default {
   data() {
     return {
-      api: this.$store.state.api,
       swiperOption: {
         spaceBetween: 30,
         pagination: {
@@ -104,6 +103,11 @@ export default {
       ],
       newest: []
     };
+  },
+  computed: {
+    api() {
+      return this.$store.state.api;
+    }
   },
   components: {
     Header,
@@ -128,7 +132,7 @@ export default {
           }
         })
         .then(res => {
-          this.newest = res.data;
+          this.newest = res.data.destinations;
         });
     },
     /**

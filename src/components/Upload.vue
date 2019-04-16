@@ -28,6 +28,10 @@ export default {
     height: {
       type: String,
       default: "340px"
+    },
+    isCover: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
@@ -37,12 +41,14 @@ export default {
         height: this.height,
         lineHeight: this.height
       };
+    },
+    api() {
+      return this.$store.state.api;
     }
   },
   data() {
     return {
-      path: "",
-      api: this.$store.state.api
+      path: ""
     };
   },
   watch: {
@@ -76,8 +82,8 @@ export default {
           .then(
             res => {
               if (res.code === 200) {
-                this.path = res.data.path;
-                this.$emit("upload", this.path);
+                if (this.isCover) this.path = res.data.path;
+                this.$emit("upload", res.data.path);
               }
             },
             err => {
@@ -97,6 +103,7 @@ export default {
   .file {
     text-align: center;
     border: 1px solid #ddd;
+    box-sizing: border-box;
     cursor: pointer;
     input[type="file"] {
       width: 1px;
